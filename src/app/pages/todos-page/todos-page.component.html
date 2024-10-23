@@ -25,7 +25,10 @@
 
       <app-filter></app-filter>
 
-      <button class="todoapp__clear-completed">
+      <button 
+      class="todoapp__clear-completed"
+      (click)="clearCompleted()"
+      >
         Clear completed
       </button>
     </footer>

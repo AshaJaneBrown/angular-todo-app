@@ -1,4 +1,4 @@
-import { BehaviorSubject, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, tap, withLatestFrom, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Todo } from '../types/todo';
@@ -66,4 +66,20 @@ export class TodosService {
         }),
       )
   }
+
+  deleteTodos(ids: number[]) {
+    const deleteRequests = ids.map(id =>
+      this.http.delete<Todo>(`${API_URL}/todos/${id}`)
+    );
+  
+    return forkJoin(deleteRequests).pipe(
+      withLatestFrom(this.todos$$),
+      tap(([_, todos]) => {
+        this.todos$$.next(
+          todos.filter(todo => !ids.includes(todo.id)),
+        );
+      }),
+    );
+  }
+  
 }

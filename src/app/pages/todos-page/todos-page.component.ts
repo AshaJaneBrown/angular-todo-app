@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, map, switchMap } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
 import { TodosService } from 'src/app/services/todos.service';
 import { Status } from 'src/app/types/status';
@@ -80,5 +80,15 @@ export class TodosPageComponent implements OnInit {
       .subscribe({
         error: () => this.messageService.showMessage('Unable to delete a todo'),
       });
+  }
+
+  clearCompleted() {
+    this.completedTodos$.pipe(
+      take(1),
+      map(completedTodos => completedTodos.map(todo => todo.id)), 
+      switchMap(ids => this.todosService.deleteTodos(ids))
+    ).subscribe({
+      error: () => this.messageService.showMessage('Unable to delete completed todos'),
+    });
   }
 }
