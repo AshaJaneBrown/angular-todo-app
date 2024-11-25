@@ -1,7 +1,20 @@
-<nav>
-  <a routerLink="/todos">Todos</a>
-  <br>
-  <a routerLink="/about">About</a>
+<nav class="navbar is-light">
+  <div class="navbar-menu">
+    <div class="navbar-end">
+      <a routerLink="/todos" class="navbar-item">
+        <span class="icon">
+          <i class="fas fa-list"></i>
+        </span>
+        <span>Todos</span>
+      </a>
+      <a routerLink="/about" class="navbar-item">
+        <span class="icon">
+          <i class="fas fa-info-circle"></i>
+        </span>
+        <span>About</span>
+      </a>
+    </div>
+  </div>
 </nav>
 
 <router-outlet></router-outlet>
